@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import type { QuestionnaireQuestion, QuestionnaireSubmission } from "@/types/database";
 
@@ -10,15 +12,16 @@ interface PatientOption {
 }
 
 export default function QuestionnairesPage() {
+  const searchParams = useSearchParams();
   const [questions, setQuestions] = useState<QuestionnaireQuestion[]>([]);
   const [submissions, setSubmissions] = useState<QuestionnaireSubmission[]>([]);
   const [patients, setPatients] = useState<PatientOption[]>([]);
-  const [selectedPatient, setSelectedPatient] = useState("");
+  const [selectedPatient, setSelectedPatient] = useState(searchParams.get("patient") || "");
   const [selectedPhase, setSelectedPhase] = useState<"pre" | "post">("pre");
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [saving, setSaving] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [showForm, setShowForm] = useState(false);
+  const [showForm, setShowForm] = useState(!!searchParams.get("patient"));
 
   useEffect(() => {
     async function load() {
@@ -102,7 +105,7 @@ export default function QuestionnairesPage() {
       <header className="sticky top-0 z-10 border-b bg-white/80 backdrop-blur-md px-6 py-4">
         <div className="mx-auto flex max-w-7xl items-center justify-between">
           <div className="flex items-center gap-4">
-            <a href="/dashboard" className="text-xl font-bold text-teal-700">SNEfi Care</a>
+            <Link href="/dashboard" className="text-xl font-bold text-teal-700">SNEfi Care</Link>
             <span className="text-gray-300">/</span>
             <span className="text-sm text-gray-600">Kuesioner SMSES-BC</span>
           </div>

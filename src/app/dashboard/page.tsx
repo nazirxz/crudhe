@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import type { Profile } from "@/types/database";
 
@@ -77,7 +78,7 @@ export default function DashboardPage() {
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {menus.map((m) => (
-            <a
+            <Link
               key={m.href}
               href={m.href}
               className="group relative overflow-hidden rounded-2xl bg-white p-6 shadow-sm border border-gray-100 transition-all hover:shadow-lg hover:-translate-y-1"
@@ -89,7 +90,7 @@ export default function DashboardPage() {
               <span className="mt-4 inline-flex items-center text-sm font-medium text-teal-600 group-hover:text-teal-700">
                 Buka →
               </span>
-            </a>
+            </Link>
           ))}
         </div>
       </main>

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { supabase, createEphemeralAuthClient } from "@/lib/supabase";
 
 export default function NewPatientPage() {
@@ -59,9 +60,9 @@ export default function NewPatientPage() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-teal-50">
       <header className="sticky top-0 z-10 border-b bg-white/80 backdrop-blur-md px-6 py-4">
         <div className="mx-auto flex max-w-7xl items-center gap-4">
-          <a href="/dashboard" className="text-xl font-bold text-teal-700">SNEfi Care</a>
+          <Link href="/dashboard" className="text-xl font-bold text-teal-700">SNEfi Care</Link>
           <span className="text-gray-300">/</span>
-          <a href="/dashboard/patients" className="text-sm text-gray-600 hover:text-teal-600 transition-colors">Pasien</a>
+          <Link href="/dashboard/patients" className="text-sm text-gray-600 hover:text-teal-600 transition-colors">Pasien</Link>
           <span className="text-gray-300">/</span>
           <span className="text-sm text-gray-600">Tambah</span>
         </div>
@@ -95,9 +96,9 @@ export default function NewPatientPage() {
             <button type="submit" disabled={loading} className="rounded-xl bg-teal-600 px-6 py-3 font-semibold text-white hover:bg-teal-700 disabled:opacity-50 shadow-md shadow-teal-200 transition-all">
               {loading ? "⏳ Menyimpan..." : "💾 Simpan"}
             </button>
-            <a href="/dashboard/patients" className="rounded-xl border border-gray-200 px-6 py-3 text-sm font-medium text-gray-600 hover:bg-gray-50 transition-all">
+            <Link href="/dashboard/patients" className="rounded-xl border border-gray-200 px-6 py-3 text-sm font-medium text-gray-600 hover:bg-gray-50 transition-all">
               Batal
-            </a>
+            </Link>
           </div>
         </form>
       </main>

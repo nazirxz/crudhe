@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 
 interface PendingRecord {
@@ -43,7 +44,7 @@ export default function ApprovalsPage() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-teal-50">
       <header className="sticky top-0 z-10 border-b bg-white/80 backdrop-blur-md px-6 py-4">
         <div className="mx-auto flex max-w-7xl items-center gap-4">
-          <a href="/dashboard" className="text-xl font-bold text-teal-700">SNEfi Care</a>
+          <Link href="/dashboard" className="text-xl font-bold text-teal-700">SNEfi Care</Link>
           <span className="text-gray-300">/</span>
           <span className="text-sm text-gray-600">Approval Sesi</span>
         </div>

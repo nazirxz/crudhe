@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import type { ProgramSession } from "@/types/database";
 
@@ -20,13 +21,13 @@ export default function SessionsPage() {
       <header className="sticky top-0 z-10 border-b bg-white/80 backdrop-blur-md px-6 py-4">
         <div className="mx-auto flex max-w-7xl items-center justify-between">
           <div className="flex items-center gap-4">
-            <a href="/dashboard" className="text-xl font-bold text-teal-700">SNEfi Care</a>
+            <Link href="/dashboard" className="text-xl font-bold text-teal-700">SNEfi Care</Link>
             <span className="text-gray-300">/</span>
             <span className="text-sm text-gray-600">Sesi Program</span>
           </div>
-          <a href="/dashboard/sessions/edit" className="rounded-xl bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-700 shadow-md shadow-teal-200 transition-all">
+          <Link href="/dashboard/sessions/edit" className="rounded-xl bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-700 shadow-md shadow-teal-200 transition-all">
             + Tambah / Edit Sesi
-          </a>
+          </Link>
         </div>
       </header>
 
@@ -54,7 +55,7 @@ export default function SessionsPage() {
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {sessions.map((s) => (
-              <a
+              <Link
                 key={s.day}
                 href={`/dashboard/sessions/${s.day}`}
                 className="group relative overflow-hidden rounded-2xl bg-white p-5 shadow-sm border border-gray-100 transition-all hover:shadow-lg hover:-translate-y-1"
@@ -68,7 +69,7 @@ export default function SessionsPage() {
                 </div>
                 <h2 className="mt-3 font-bold text-gray-900 line-clamp-2">{s.title}</h2>
                 <p className="mt-1 text-xs text-gray-500">{s.theme}</p>
-              </a>
+              </Link>
             ))}
           </div>
         )}
