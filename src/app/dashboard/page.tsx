@@ -64,13 +64,16 @@ export default function DashboardPage() {
         {profile.role === "perawat" ? (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <DashboardCard title="Pasien" description="Kelola data pasien" href="/dashboard/patients" />
+            <DashboardCard title="Perawat" description="Kelola data perawat" href="/dashboard/nurses" />
+            <DashboardCard title="Approval Sesi" description="Setujui/tolak sesi pasien" href="/dashboard/approvals" />
             <DashboardCard title="Sesi Program" description="Kelola konten 15 sesi" href="/dashboard/sessions" />
             <DashboardCard title="Kuesioner" description="Lihat hasil SMSES-BC" href="/dashboard/questionnaires" />
           </div>
         ) : (
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <DashboardCard title="Sesi Harian" description="Lanjutkan sesi edukasi" href="/dashboard/my-sessions" />
             <DashboardCard title="Relaksasi" description="Dengarkan suara relaksasi" href="/dashboard/relaxation" />
+            <DashboardCard title="Kuesioner" description="Isi kuesioner SMSES-BC" href="/dashboard/questionnaires" />
           </div>
         )}
       </main>
