@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
@@ -12,6 +12,14 @@ interface PatientOption {
 }
 
 export default function QuestionnairesPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center"><div className="h-8 w-8 animate-spin rounded-full border-4 border-teal-200 border-t-teal-600" /></div>}>
+      <QuestionnairesContent />
+    </Suspense>
+  );
+}
+
+function QuestionnairesContent() {
   const searchParams = useSearchParams();
   const [questions, setQuestions] = useState<QuestionnaireQuestion[]>([]);
   const [submissions, setSubmissions] = useState<QuestionnaireSubmission[]>([]);
