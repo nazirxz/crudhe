@@ -99,13 +99,16 @@ export default function NewPatientPage() {
 
     // Insert session records with details
     if (sessions.length > 0) {
-      const { data: insertedRecords } = await supabase.from("session_records").insert(
-        sessions.map(s => ({
+      const res = await fetch("/api/session-records", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ records: sessions.map(s => ({
           patient_id: userId, day: s.day, status: "selesai" as const, approval_status: "disetujui" as const,
           mood: s.mood, affirmation_note: s.affirmation_note, duration_minutes: s.duration_minutes,
           completed_at: new Date().toISOString(), approved_at: new Date().toISOString(),
-        }))
-      ).select();
+        })) }),
+      });
+      const { data: insertedRecords } = await res.json();
 
       // Insert reflection answers
       if (insertedRecords) {

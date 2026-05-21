@@ -71,26 +71,23 @@ export default function EditPatientPage() {
   async function toggleSession(day: number) {
     const existing = records.find((r) => r.day === day);
     if (existing) {
-      await supabase.from("reflection_answers").delete().eq("session_id", existing.id);
-      await supabase.from("session_records").delete().eq("id", existing.id);
+      await fetch(`/api/session-records?id=${existing.id}`, { method: "DELETE" });
       setReflections(reflections.filter(r => r.session_id !== existing.id));
       setRecords(records.filter((r) => r.id !== existing.id));
     } else {
-      const { data } = await supabase.from("session_records").insert({
-        patient_id: id, day, status: "selesai", approval_status: "disetujui",
-        mood: 3, completed_at: new Date().toISOString(), approved_at: new Date().toISOString(),
-      }).select().single();
-      if (data) setRecords([...records, data].sort((a, b) => a.day - b.day));
+      const res = await fetch("/api/session-records", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ records: [{ patient_id: id, day, status: "selesai", approval_status: "disetujui", mood: 3, completed_at: new Date().toISOString(), approved_at: new Date().toISOString() }] }),
+      });
+      const { data } = await res.json();
+      if (data?.[0]) setRecords([...records, data[0]].sort((a, b) => a.day - b.day));
     }
   }
 
   async function bulkSetSessions(upToDay: number) {
-    // Delete existing
-    const existingIds = records.map(r => r.id);
-    if (existingIds.length > 0) {
-      await supabase.from("reflection_answers").delete().in("session_id", existingIds);
-    }
-    await supabase.from("session_records").delete().eq("patient_id", id);
+    // Delete existing via API
+    await fetch(`/api/session-records?patient_id=${id}`, { method: "DELETE" });
     setReflections([]);
 
     if (upToDay > 0) {
@@ -98,7 +95,12 @@ export default function EditPatientPage() {
         patient_id: id, day: i + 1, status: "selesai" as const, approval_status: "disetujui" as const,
         mood: 3, completed_at: new Date().toISOString(), approved_at: new Date().toISOString(),
       }));
-      const { data } = await supabase.from("session_records").insert(inserts).select();
+      const res = await fetch("/api/session-records", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ records: inserts }),
+      });
+      const { data } = await res.json();
       setRecords(data || []);
     } else {
       setRecords([]);
@@ -109,7 +111,11 @@ export default function EditPatientPage() {
   }
 
   async function updateSessionDetail(recordId: string, field: string, value: unknown) {
-    await supabase.from("session_records").update({ [field]: value }).eq("id", recordId);
+    await fetch("/api/session-records", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: recordId, updates: { [field]: value } }),
+    });
     setRecords(records.map(r => r.id === recordId ? { ...r, [field]: value } : r));
   }
 
